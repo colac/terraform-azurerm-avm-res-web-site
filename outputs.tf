@@ -89,24 +89,24 @@ output "system_assigned_mi_principal_id_slots" {
   sensitive   = true
   value = var.kind == "functionapp" ? ( # Exclude logic apps
     var.os_type == "Windows"
-      ? { for slot_key, slot in azurerm_windows_function_app_slot.this :
-          slot_key => try(slot.identity[0].principal_id, null)
-          if try(slot.identity[0].principal_id, null) != null
-        }
-      : { for slot_key, slot in azurerm_linux_function_app_slot.this :
-          slot_key => try(slot.identity[0].principal_id, null)
-          if try(slot.identity[0].principal_id, null) != null
-        }
-  ) : var.kind == "webapp" ? (
+    ? { for slot_key, slot in azurerm_windows_function_app_slot.this :
+      slot_key => try(slot.identity[0].principal_id, null)
+      if try(slot.identity[0].principal_id, null) != null
+    }
+    : { for slot_key, slot in azurerm_linux_function_app_slot.this :
+      slot_key => try(slot.identity[0].principal_id, null)
+      if try(slot.identity[0].principal_id, null) != null
+    }
+    ) : var.kind == "webapp" ? (
     var.os_type == "Windows"
-      ? { for slot_key, slot in azurerm_windows_web_app_slot.this :
-          slot_key => try(slot.identity[0].principal_id, null)
-          if try(slot.identity[0].principal_id, null) != null
-        }
-      : { for slot_key, slot in azurerm_linux_web_app_slot.this :
-          slot_key => try(slot.identity[0].principal_id, null)
-          if try(slot.identity[0].principal_id, null) != null
-        }
+    ? { for slot_key, slot in azurerm_windows_web_app_slot.this :
+      slot_key => try(slot.identity[0].principal_id, null)
+      if try(slot.identity[0].principal_id, null) != null
+    }
+    : { for slot_key, slot in azurerm_linux_web_app_slot.this :
+      slot_key => try(slot.identity[0].principal_id, null)
+      if try(slot.identity[0].principal_id, null) != null
+    }
   ) : {}
 }
 
